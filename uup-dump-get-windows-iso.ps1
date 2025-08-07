@@ -205,7 +205,7 @@ function Get-UupDumpIso($name, $target) {
                 downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
                     pack = $lang
-                    edition = if ($edition -eq "multi") { "core;Professional)" } else { $target.edition }
+                    edition = if ($edition -eq "multi") { "core;Professional" } else { $target.edition }
                 })
             }
         }
