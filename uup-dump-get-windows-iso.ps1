@@ -217,7 +217,12 @@ function Get-IsoWindowsImages($isoPath) {
     $isoImage = Mount-DiskImage $isoPath -PassThru
     try {
         $isoVolume = $isoImage | Get-Volume
-        $installPath = "$($isoVolume.DriveLetter):\sources\install.esd"
+        if ($esd) {
+           $installPath = "$($isoVolume.DriveLetter):\sources\install.esd"
+        }
+        else {
+           $installPath = "$($isoVolume.DriveLetter):\sources\install.wim"
+        }
         Write-Host "Getting Windows images from $installPath"
         Get-WindowsImage -ImagePath $installPath `
             | ForEach-Object {
