@@ -146,17 +146,11 @@ function Get-UupDumpIso($name, $target) {
             #   1. are from the expected ring/channel (default retail)
             #   2. have the english language
             #   3. match the requested edition
-            $ring = $_.Value.info.ring
             $langs = $_.Value.langs.PSObject.Properties.Name
             $editions = $_.Value.editions.PSObject.Properties.Name
             $result = $true
-            $expectedRing = if ($target.PSObject.Properties.Name -contains 'ring') {
-                $target.ring
-            } else {
-                'RETAIL'
-            }
-            # if ($ring -ne $expectedRing) {
-            #     Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
+            # if ($ring -ne 'RETAIL') {
+            #     Write-Host "Skipping. Expected ring=RETAIL. Got ring=$ring."
             #     $result = $false
             # }
             if ($langs -notcontains $lang) {
@@ -371,7 +365,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
     Write-Host "Moving the created $sourceIsoPath to $destinationDirectory/$IsoName"
     Move-Item -Force $sourceIsoPath "$destinationDirectory/$IsoName"
     # Set-Content -Path ${env:GITHUB_ENV} -Value "ISO_NAME=$IsoName"
-    echo "ISO_NAME=$IsoName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    Write-Output "ISO_NAME=$IsoName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     Write-Host 'All Done.'
 }
