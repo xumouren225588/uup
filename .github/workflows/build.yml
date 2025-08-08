@@ -1,5 +1,5 @@
 name: build
-run-name: "Build ${{ inputs.versions }} ${{ inputs.edition }} ${{ inputs.language }} ${{ contains(inputs.esd) && 'ESD' }}"
+run-name: "Build ${{ inputs.versions }} ${{ inputs.edition }} ${{ inputs.language }} ${{ isset(inputs.esd) && 'ESD' }}"
 
 on:
   workflow_dispatch:
