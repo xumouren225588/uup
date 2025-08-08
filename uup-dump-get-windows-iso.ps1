@@ -303,14 +303,6 @@ function Get-WindowsIso($name, $destinationDirectory) {
             $tags = '.ESD'
         }
     }
-    if ($drivers) {
-        $convertConfig = $convertConfig -replace '^(AddDrivers\s*)=.*', '$1=1'
-        $tags = tags + '.DRIVERS'
-    }
-    if ($netfx3) {
-        $convertConfig = $convertConfig -replace '^(NetFx3\s*)=.*', '$1=1'
-        $tags = $tags + '.NETFX3'
-    }
     if ($iso.virtualEdition) {
         $convertConfig = $convertConfig `
             -replace '^(StartVirtual\s*)=.*','$1=1' `
