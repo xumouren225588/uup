@@ -351,6 +351,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
                 title = $iso.title
                 build = $iso.build
                 version = $verbuild
+                tags = "asd"
                 checksum = $isoChecksum
                 images = @($windowsImages)
                 uupDump = @{
