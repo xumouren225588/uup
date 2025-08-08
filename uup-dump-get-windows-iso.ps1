@@ -294,7 +294,6 @@ function Get-WindowsIso($name, $destinationDirectory) {
         -replace '^(AutoExit\s*)=.*','$1=1' `
         -replace '^(ResetBase\s*)=.*','$1=1' `
         -replace '^(Cleanup\s*)=.*','$1=1'
-    $tags = $null
     if ($esd) {
         $convertConfig = $convertConfig -replace '^(wim2esd\s*)=.*', '$1=1'
         $tags = $tags + '.ESD'
