@@ -32,21 +32,21 @@ $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_10_version_history
     "windows-10" = @{
         search = "windows 10 19045 $arch" # aka 22H2.
-        edition = if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" }
+        edition = $(if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" })
         virtualEdition = $null
     }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11old" = @{
         search = "windows 11 22631 $arch" # aka 23H2.
-        edition = if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" }
+        edition = $(if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" })
         virtualEdition = $null
     }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
-        search = "windows 11 $((if (-not $preview) { '26100 ' } else { '' })) $arch" # aka 24H2.
-        edition = if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" }
+        search = "windows 11 $(if (-not $preview) { '26100 ' } else { '' })$arch" # aka 24H2.
+        edition = $(if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" })
         virtualEdition = $null
     }
 }
