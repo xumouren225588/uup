@@ -163,10 +163,10 @@ function Get-UupDumpIso($name, $target) {
             } else {
                 'RETAIL'
             }
-            if ($ring -ne $expectedRing) {
-                Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
-                $result = $false
-            }
+            # if ($ring -ne $expectedRing) {
+            #     Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
+            #     $result = $false
+            # }
             if ($langs -notcontains $lang) {
                 Write-Host "Skipping. Expected langs=$lang. Got langs=$($langs -join ',')."
                 $result = $false
