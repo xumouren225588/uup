@@ -77,11 +77,6 @@ on:
         - zh-tw
         default: en-us
         required: true
-      preview:
-        description: "Build Canary version"
-        type: boolean
-        required: true
-        default: false
       esd:
         description: "Use ESD compression"
         type: boolean
