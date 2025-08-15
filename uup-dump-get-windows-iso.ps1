@@ -290,7 +290,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
      #    }
     }
     else {
-         $verbuild = $target.ring
+         $verbuild = $expectedRing
     }
     $buildDirectory = "$destinationDirectory/$name"
     $destinationIsoPath = "$buildDirectory.iso"
