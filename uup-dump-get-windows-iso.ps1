@@ -45,7 +45,7 @@ $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
-        search = "windows 11 $(if (!$preview) { '26100 ' } else { 'preview' })$arch" # aka 24H2.
+        search = "windows 11 $(if (!$preview) { '26100 ' } else { 'preview ' })$arch" # aka 24H2.
         edition = $(if ($edition -eq "core" -or $edition -eq "home") { "Core" } elseif ($edition -eq "multi") { "Multi" } else { "Professional" })
         virtualEdition = $null
         ring = $(if ($preview) { 'CANARY' } else { $null })
@@ -72,7 +72,6 @@ function Invoke-UupDumpApi([string]$name, [hashtable]$body) {
                 -Uri "https://api.uupdump.net/$name.php" `
                 -Body $body
         } catch {
-            Write-Host $body
             Write-Host "WARN: failed the uup-dump api $name request: $_"
         }
     }
