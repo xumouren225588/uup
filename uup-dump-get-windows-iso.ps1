@@ -117,7 +117,7 @@ function Get-UupDumpIso($name, $target) {
             if ($ringLower -in @('dev','beta')) {
                 $ringPattern = $ringLower + "|WIP"
             }
-            if ($ringLower -and ($_.Value.info.ring -notmatch $ringPattern)) {
+            if ($ringPattern -and ($_.Value.info.ring -notmatch $ringPattern)) {
                 Write-Host "Skipping. Expected ring match for $ringLower. Got ring=$($_.Value.info.ring)."
                 $res = $false
             }
