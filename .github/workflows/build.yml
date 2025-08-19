@@ -129,7 +129,7 @@ jobs:
         id: build_windows
         shell: pwsh
         run: |
-          pwsh uup-dump-get-windows-iso.ps1 ${{ (inputs.versions) == 'Windows 10 22H2' && ' windows-10 ' || (inputs.versions) == 'Windows 11 23H2' && ' windows-11old ' || (inputs.versions) == 'Windows 11 24H2' && ' windows-11 ' || (inputs.versions) == 'Windows 11 24H2 BETA' && ' windows-11beta ' || (inputs.versions) == 'Windows 11 25H2 DEV' && ' windows-11dev ' || (inputs.versions) == 'Windows 11 Canary' && ' windows-11canary ' }} c:/output -architecture ${{ inputs.architecture }} -edition ${{ inputs.edition }} -lang ${{ inputs.language }} $env:options
+          pwsh uup-dump-get-windows-iso.ps1 ${{ (inputs.versions) == 'Windows 10 22H2' && ' windows-10 ' || (inputs.versions) == 'Windows 11 23H2' && ' windows-11old ' || (inputs.versions) == 'Windows 11 24H2' && ' windows-11 ' || (inputs.versions) == 'Windows 11 24H2 BETA' && ' windows-11beta ' || (inputs.versions) == 'Windows 11 25H2 DEV' && ' windows-11dev ' || (inputs.versions) == 'Windows 11 Canary' && ' windows-11canary ' }} c:/output -architecture ${{ inputs.architecture }} -edition ${{ inputs.edition }} -lang ${{ inputs.language }} ${{ env.options }}
           echo "iso_name=$env:ISO_NAME" >> $env:GITHUB_OUTPUT
 
       - name: Upload artifact
@@ -179,7 +179,7 @@ jobs:
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "images=$($finalImageName)" >> $env:GITHUB_ENV
-          echo "tagname=$($iso.build).$($iso.version).${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}.${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}.${{ fromJSON('{"ar-sa":"AR","bg-bg":"BG","cs-cz":"CS","da-dk":"DA","de-de":"DE","el-gr":"EL","en-gb":"EN","en-us":"EN","es-es":"ES","es-mx":"ES","et-ee":"ET","fi-fi":"FI","fr-ca":"FR","fr-fr":"FR","he-il":"HE","hr-hr":"HR","hu-hu":"HU","it-it":"IT","ja-jp":"JA","ko-kr":"KO","lt-lt":"LT","lv-lv":"LV","nb-no":"NB","nl-nl":"NL","pl-pl":"PL","pt-br":"PT","pt-pt":"PT","ro-ro":"RO","ru-ru":"RU","sk-sk":"SK","sl-si":"SL","sr-latn-rs":"SR","sv-se":"SV","th-th":"TH","tr-tr":"TR","uk-ua":"UK","zh-cn":"ZH","zh-tw":"ZH"}')[inputs.language] }}$($iso.tags)" >> $env:GITHUB_ENV
+          echo "tagname=$($iso.build).$($iso.version).${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}.${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}.${{ fromJSON('{"ar-sa":"AR","bg-bg":"BG","cs-cz":"CS","da-dk":"DA","de-de":"DE","el-gr":"EL","en-gb":"EN","en-us":"EN","es-es":"ES","es-mx":"ES","et-ee":"ET","fi-fi":"FI","fr-ca":"FR","fr-fr":"FR","he-il":"HE","hr-hr":"HR","hu-hu":"HU","it-it":"IT","ja-jp":"JA","ko-kr":"KO","lt-lt":"LT","lv-lv":"LV","nb-no":"NB","nl-nl":"NL","pl-pl":"PL","pt-br":"PT","pt-pt":"PT","ro-ro":"RO","ru-ru":"RU","sk-sk":"SK","sl-si":"SL","sr-latn-rs":"SR","sv-se":"SV","th-th":"TH","tr-tr":"TR","uk-ua":"UK","zh-cn":"ZH","zh-tw":"ZH"}')[inputs.language] }} $($iso.tags)" >> $env:GITHUB_ENV
 
       - name: Create Release
         id: create_release
