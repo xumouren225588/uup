@@ -4,7 +4,7 @@ This creates an iso file with the latest Windows available from the [Unified Upd
 
 This shrink wraps the [UUP dump](https://git.uupdump.net/uup-dump) project into a single command.
 
-This must be executed in a Windows 2022 host.
+This can be executed in a Windows server 2022 x64 host or Windows 11 arm64.
 
 This supports the following Windows Editions:
 
