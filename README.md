@@ -72,7 +72,7 @@ Language:
 
 
 Additional options:
-* `esd`: Compression with ESD
+* `esd`: Use ESD compression
 * `drivers`: Add drivers from Drivers folder
 * `netfx3`: Add .NET Framework 3.5
 
