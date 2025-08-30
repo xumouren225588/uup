@@ -7,7 +7,6 @@ This shrink wraps the [UUP dump](https://git.uupdump.net/uup-dump) project into 
 This can be executed in a Windows x64 or arm64 host (min. 21H2).
 
 ## This supports the following: 
-
 Windows Builds:
 * `windows-10`: Windows 10 19045 (aka 22H2)
 * `windows-11old`: Windows 11 22631 (aka 23H2)
@@ -17,14 +16,17 @@ Windows Builds:
 * `windows-11dev`: Windows 11 26220 (aka 25H2 DEV)
 * `windows-11canary`: Windows 11 Insider Preview (aka CANARY)
 
+
 Architecture:
 * `x64`
 * `arm64`
+
 
 Edition:
 * `home`
 * `pro`
 * `multi`: Home + Pro
+
 
 Language:
 * `ar-sa`: Arabic (Saudi Arabia)
@@ -65,6 +67,7 @@ Language:
 * `uk-ua`: Ukrainian (Ukraine)
 * `zh-cn`: Chinese (Simplified, China)
 * `zh-tw`: Chinese (Traditional, Taiwan)
+
 
 Additional options:
 * `esd`: Compression with ESD
