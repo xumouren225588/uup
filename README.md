@@ -22,9 +22,9 @@ Architecture:
 * `arm64`
 
 Edition:
-* `Home`
-* `Pro`
-* `Multi`: Home + Pro
+* `home`
+* `pro`
+* `multi`: Home + Pro
 
 Language:
 * `ar-sa`: Arabic (Saudi Arabia)
