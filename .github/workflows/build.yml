@@ -491,10 +491,10 @@ jobs:
 
             switch ($platform) {
               'windows' {
-                Copy-Item (Join-Path $utils 'aria2/win/aria2c.exe') $binDir -Force
-                Copy-Item (Join-Path $utils '7z/win/7za.exe')       $binDir -Force
-                Copy-Item (Join-Path $utils '7z/win/7za.dll')       $binDir -Force
-                Copy-Item (Join-Path $utils '7z/win/7zxa.dll')      $binDir -Force
+                Copy-Item (Join-Path $utils 'aria2/windows-x64/aria2c.exe') $binDir -Force
+                Copy-Item (Join-Path $utils '7z/windows-x64/7za.exe')       $binDir -Force
+                Copy-Item (Join-Path $utils '7z/windows-x64/7za.dll')       $binDir -Force
+                Copy-Item (Join-Path $utils '7z/windows-x64/7zxa.dll')      $binDir -Force
                 New-BAT -destDir $pkgDir -PartsLines $partsLines -IsoLine $isoLine
               }
               'linux' {
@@ -504,8 +504,8 @@ jobs:
                 New-SH -destDir $pkgDir -PartsLines $partsLines -IsoLine $isoLine
               }
               'macos' {
-                Get-ChildItem (Join-Path $utils 'aria2/mac') -Filter 'aria2c*' -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike '*.exe' } | Copy-Item -Destination $binDir -Force
-                Get-ChildItem (Join-Path $utils '7z/mac')    -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike '*.exe' } | Copy-Item -Destination $binDir -Force
+                Get-ChildItem (Join-Path $utils 'aria2/macos-universal') -Filter 'aria2c*' -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike '*.exe' } | Copy-Item -Destination $binDir -Force
+                Get-ChildItem (Join-Path $utils '7z/macos-universal')    -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike '*.exe' } | Copy-Item -Destination $binDir -Force
                 & bash -lc "chmod +x '$binDir/*' 2>/dev/null || true"
                 New-SH -destDir $pkgDir -PartsLines $partsLines -IsoLine $isoLine
               }
