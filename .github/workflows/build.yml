@@ -435,7 +435,7 @@ jobs:
               'ARIA2="$SCRIPT_DIR/bin/aria2c"',
               'SEVEN_ZIP=""',
               'mkdir -p "$TMPDIR"',
-              'chmod +x $SCRIPT_DIR/bin/*',
+              'find "$SCRIPT_DIR/bin/" -type f -exec chmod +x {} \;',
               '',
               'for c in "$SCRIPT_DIR/bin/7z" "$SCRIPT_DIR/bin/7zz" "$SCRIPT_DIR/bin/7za"; do',
               '  if [ -x "$c" ]; then SEVEN_ZIP="$c"; break; fi',
