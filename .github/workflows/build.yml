@@ -36,7 +36,7 @@ on:
           - Windows 11 24H2 BETA
           - Windows 11 25H2 DEV
           - Windows 11 CANARY
-        default: Windows 11 24H2
+        default: Windows 11 25H2
         required: true
       edition:
         description: "Windows edition to build"
