@@ -32,8 +32,8 @@ on:
           - Windows 10 22H2
           - Windows 11 23H2
           - Windows 11 24H2
-          - Windows 11 25H2
           - Windows 11 24H2 BETA
+          - Windows 11 25H2
           - Windows 11 DEV
           - Windows 11 CANARY
         default: Windows 11 25H2
@@ -160,8 +160,8 @@ jobs:
             'Windows 10 22H2'      = 'windows-10'
             'Windows 11 23H2'      = 'windows-11old'
             'Windows 11 24H2'      = 'windows-11'
-            'Windows 11 25H2'      = 'windows-11new'
             'Windows 11 24H2 BETA' = 'windows-11beta'
+            'Windows 11 25H2'      = 'windows-11new'
             'Windows 11 DEV'       = 'windows-11dev'
             'Windows 11 CANARY'    = 'windows-11canary'
           }
@@ -289,13 +289,18 @@ jobs:
           $rlsnfo = @"
           
           ## RELEASE INFO
-          File is splitted because Github release limit filesize to 2G.
-          You must download all files **$env:ISO_NAME.zip.xxx** *(where xxx is number of archive)*
-          If You have all files you can extract files. 
-          
-          For example on windows with 7-Zip:
-          - Extract (GUI): `Open **$env:ISO_NAME.zip.001** in 7-Zip and extract.`
-          - Extract (CLI): `7z x $env:ISO_NAME.zip.001`
+          > [!NOTE]  
+          > File is splitted because Github release limit filesize to 2G.
+          > You must download all files **$env:ISO_NAME.zip.xxx** *(where xxx is number of archive)*
+          > If You have all files you can extract files. 
+                    
+          > [!TIP]
+          > For example on windows with 7-Zip:
+          > - Extract (GUI): `Open **$env:ISO_NAME.zip.001** in 7-Zip and extract.`
+          > - Extract (CLI): `7z x $env:ISO_NAME.zip.001`
+
+          > [!CAUTION]
+          > Remember on Linux/MacOS set `chmod +x` to *.sh file before run!
           "@
 
           ((Get-Content $env:GITHUB_STEP_SUMMARY) + "<br/>" + $rlsnfo) | Set-Content summary.md
