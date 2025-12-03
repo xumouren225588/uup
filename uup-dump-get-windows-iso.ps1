@@ -267,7 +267,7 @@ function Get-IsoWindowsImages($isoPath) {
 }
 
 # ------------------------------
-# Patch uup_download_windows.cmd with sed (variant A) — quiet aria2 flags
+# Patch uup_download_windows.cmd with sed - quiet aria2 flags
 # ------------------------------
 function Patch-Aria2-Flags {
   param([string]$CmdPath)
@@ -275,7 +275,7 @@ function Patch-Aria2-Flags {
 
   $sed = Get-Command sed -ErrorAction SilentlyContinue
   if ($sed) {
-    Write-CleanLine "Patching aria2 flags in $CmdPath using sed (variant A)."
+    Write-CleanLine "Patching aria2 flags in $CmdPath using sed."
     # Remove conflicting flags first
     & $sed.Path -ri 's/\s--console-log-level=\w+\b//g; s/\s--summary-interval=\d+\b//g; s/\s--download-result=\w+\b//g; s/\s--enable-color=\w+\b//g; s/\s-(q|quiet(=\w+)?)\b//g' $CmdPath
     # Inject quiet set right after "%aria2%"
@@ -364,11 +364,13 @@ function Get-WindowsIso($name, $destinationDirectory) {
   Write-CleanLine "Creating the $title iso file inside the $buildDirectory directory"
   Push-Location $buildDirectory
 
-  # Patch aria2 flags in the batch before running it (sed variant A, with PS fallback)
+  # Patch aria2 flags in the batch before running it
   Patch-Aria2-Flags -CmdPath (Join-Path $buildDirectory 'uup_download_windows.cmd')
 
   # Raw log path
   $rawLog = Join-Path $env:RUNNER_TEMP "uup_dism_aria2_raw.log"
+
+  choco install aria2 /y *> $null
 
   & {
     powershell cmd /c uup_download_windows.cmd 2>&1 |
