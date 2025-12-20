@@ -131,12 +131,13 @@
             const randomString = generateRandomString(8);
 
             // Open GitHub Issue with pre-filled content
-            const issueUrl = `https://github.com/xumouren225588/uup/issues/new?title=build+${randomString}&body=${encodeURIComponent(JSON.stringify(config, null, 2))}`;
+            const issueUrl = `https://github.com/xumouren225588/uup/issues/new?title=build+${randomString}&body=${encodeURIComponent(JSON.stringify(config))}`;
             window.open(issueUrl, '_blank');
         }
     </script>
 </body>
 
 </html>
+
 
 
