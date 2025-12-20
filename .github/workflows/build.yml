@@ -17,6 +17,8 @@ run-name: >
   ${{ inputs.netfx3 && 'NETFX3' || '' }}
 
 on:
+  issues:
+    types: [opened]
   workflow_dispatch:
     inputs:
       architecture:
@@ -103,9 +105,41 @@ on:
         type: boolean
         required: true
         default: false
+      email:
+        description: "Email address for notification"
+        type: string
+        required: true
 
 jobs:
+  check_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get issues
+        id: get_issues
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            const buildIssue = issues.data.find(issue => issue.title.startsWith('build') && issue.body.startsWith('{') && issue.body.endsWith('}'));
+            if (buildIssue) {
+              core.setOutput('build_config', buildIssue.body);
+              core.setOutput('email', JSON.parse(buildIssue.body).email);
+            } else {
+              core.setFailed('No valid build issue found');
+            }
+
+      - name: Set build config
+        id: set_build_config
+        run: |
+          echo "build_config=${{ steps.get_issues.outputs.build_config }}" >> $GITHUB_OUTPUT
+          echo "email=${{ steps.get_issues.outputs.email }}" >> $GITHUB_OUTPUT
+
   build:
+    needs: check_issue
     runs-on: ${{ fromJSON('{"x64":"windows-2022","arm64":"windows-11-arm"}')[inputs.architecture] }}
     steps:
       - name: Checkout
@@ -115,6 +149,20 @@ jobs:
         id: map
         shell: pwsh
         run: |
+          if ($env:build_config) {
+            $config = $env:build_config | ConvertFrom-Json
+          } else {
+            $config = @{
+              architecture = $env:INPUTS_ARCHITECTURE
+              versions = $env:INPUTS_VERSIONS
+              edition = $env:INPUTS_EDITION
+              language = $env:INPUTS_LANGUAGE
+              esd = $env:INPUTS_ESD
+              netfx3 = $env:INPUTS_NETFX3
+              drivers = $env:INPUTS_DRIVERS
+            }
+          }
+
           $langMap = @{
             'Arabic (Saudi Arabia)'='ar-sa'
             'Bulgarian (Bulgaria)'='bg-bg'
@@ -166,15 +214,15 @@ jobs:
             'Windows 11 CANARY'    = 'windows-11canary'
           }
 
-          $langCode = $langMap['${{ inputs.language }}']
-          $verCode  = $verMap['${{ inputs.versions }}']
+          $langCode = $langMap[$config.language]
+          $verCode  = $verMap[$config.versions]
 
           $opts = ''
-          if ('${{ inputs.esd }}' -eq 'true')     { $opts += ' -esd' }
-          if (('${{ inputs.drivers }}' -eq 'true') -and ('${{ inputs.architecture }}' -ne 'arm64')) {
+          if ($config.esd -eq $true)     { $opts += ' -esd' }
+          if (($config.drivers -eq $true) -and ($config.architecture -ne 'arm64')) {
             $opts += ' -drivers'
           }
-          if ('${{ inputs.netfx3 }}' -eq 'true')  { $opts += ' -netfx3' }
+          if ($config.netfx3 -eq $true)  { $opts += ' -netfx3' }
           $opts = $opts.Trim()
 
           echo "lang=$langCode"    >> $env:GITHUB_OUTPUT
@@ -207,7 +255,7 @@ jobs:
       - name: Set artifact_url
         id: set_artifact_url
         shell: pwsh
-        run: echo "artifact_url=${{ steps.upload_iso_artifact.outputs.artifact-url }}" >> $env:GITHUB_ENV
+        run: echo "artifact_url=${{ steps.upload_iso_artifact.outputs.artifact-url }}" >> $GITHUB_ENV
 
       - name: Build summary
         id: build_summary
@@ -339,7 +387,7 @@ jobs:
           $partsLines = @()
           foreach ($p in $localParts) {
             $sha = (Get-FileHash -Algorithm SHA256 $p.FullName).Hash.ToLowerInvariant()
-            $downloadUrl = "https://github.com/$owner/$repo/releases/download/$tag/$($p.Name)"
+            $downloadUrl = "https://gh.llkk.cc/https://github.com/$owner/$repo/releases/download/$tag/$($p.Name)"
             $partsLines += $downloadUrl
             $partsLines += "  checksum=sha-256=$sha"
             $partsLines += "  out=$($p.Name)"
@@ -592,3 +640,18 @@ jobs:
             if (-not (Test-Path $f)) { throw "ZIP not found: $f" }
             gh release upload $tag "$f" --clobber
           }
+
+      - name: Send email notification
+        if: success()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Build Successful
+          body: |
+            The build for ${{ env.tagname }} has been successful.
+            You can download the ISO from: https://gh.llkk.cc/https://github.com/${{ github.repository }}/releases/download/${{ env.tagname }}/isoautodl-windows-x64.zip
+          to: ${{ env.email }}
+          from: xumouren225588
