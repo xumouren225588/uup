@@ -640,7 +640,31 @@ jobs:
             if (-not (Test-Path $f)) { throw "ZIP not found: $f" }
             gh release upload $tag "$f" --clobber
           }
-
+      - name: Close build issue
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            const buildIssue = issues.data.find(issue =>
+              issue.title.startsWith('build') &&
+              issue.body.startsWith('{') &&
+              issue.body.endsWith('}')
+            );
+            if (buildIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: buildIssue.number,
+                state: 'closed'
+              });
+              console.log(`Closed issue #${buildIssue.number}`);
+            }
+            
       - name: Send email notification
         if: success()
         uses: dawidd6/action-send-mail@v2
