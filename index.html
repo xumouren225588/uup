@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Build Config</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, select, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generate Build Config</h1>
+    <form id="configForm">
+        <label for="architecture">Architecture:</label>
+        <select id="architecture" name="architecture">
+            <option value="x64">x64</option>
+            <option value="arm64">arm64</option>
+        </select>
+
+        <label for="versions">Versions:</label>
+        <select id="versions" name="versions">
+            <option value="Windows 10 22H2">Windows 10 22H2</option>
+            <option value="Windows 11 23H2">Windows 11 23H2</option>
+            <option value="Windows 11 24H2">Windows 11 24H2</option>
+            <option value="Windows 11 24H2 BETA">Windows 11 24H2 BETA</option>
+            <option value="Windows 11 25H2">Windows 11 25H2</option>
+            <option value="Windows 11 DEV">Windows 11 DEV</option>
+            <option value="Windows 11 CANARY">Windows 11 CANARY</option>
+        </select>
+
+        <label for="edition">Edition:</label>
+        <select id="edition" name="edition">
+            <option value="Pro">Pro</option>
+            <option value="Home">Home</option>
+            <option value="Multi">Multi</option>
+        </select>
+
+        <label for="language">Language:</label>
+        <select id="language" name="language">
+            <option value="Arabic (Saudi Arabia)">Arabic (Saudi Arabia)</option>
+            <option value="Bulgarian (Bulgaria)">Bulgarian (Bulgaria)</option>
+            <option value="Czech (Czech Republic)">Czech (Czech Republic)</option>
+            <option value="Danish (Denmark)">Danish (Denmark)</option>
+            <option value="German (Germany)">German (Germany)</option>
+            <option value="Greek (Greece)">Greek (Greece)</option>
+            <option value="English (United Kingdom)">English (United Kingdom)</option>
+            <option value="English (United States)">English (United States)</option>
+            <option value="Spanish (Spain)">Spanish (Spain)</option>
+            <option value="Spanish (Mexico)">Spanish (Mexico)</option>
+            <option value="Estonian (Estonia)">Estonian (Estonia)</option>
+            <option value="Finnish (Finland)">Finnish (Finland)</option>
+            <option value="French (Canada)">French (Canada)</option>
+            <option value="French (France)">French (France)</option>
+            <option value="Hebrew (Israel)">Hebrew (Israel)</option>
+            <option value="Croatian (Croatia)">Croatian (Croatia)</option>
+            <option value="Hungarian (Hungary)">Hungarian (Hungary)</option>
+            <option value="Italian (Italy)">Italian (Italy)</option>
+            <option value="Japanese (Japan)">Japanese (Japan)</option>
+            <option value="Korean (Korea)">Korean (Korea)</option>
+            <option value="Lithuanian (Lithuania)">Lithuanian (Lithuania)</option>
+            <option value="Latvian (Latvia)">Latvian (Latvia)</option>
+            <option value="Norwegian Bokmål (Norway)">Norwegian Bokmål (Norway)</option>
+            <option value="Dutch (Netherlands)">Dutch (Netherlands)</option>
+            <option value="Polish (Poland)">Polish (Poland)</option>
+            <option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
+            <option value="Portuguese (Portugal)">Portuguese (Portugal)</option>
+            <option value="Romanian (Romania)">Romanian (Romania)</option>
+            <option value="Russian (Russia)">Russian (Russia)</option>
+            <option value="Slovak (Slovakia)">Slovak (Slovakia)</option>
+            <option value="Slovenian (Slovenia)">Slovenian (Slovenia)</option>
+            <option value="Serbian (Latin, Serbia)">Serbian (Latin, Serbia)</option>
+            <option value="Swedish (Sweden)">Swedish (Sweden)</option>
+            <option value="Thai (Thailand)">Thai (Thailand)</option>
+            <option value="Turkish (Turkey)">Turkish (Turkey)</option>
+            <option value="Ukrainian (Ukraine)">Ukrainian (Ukraine)</option>
+            <option value="Chinese (Simplified, China)">Chinese (Simplified, China)</option>
+            <option value="Chinese (Traditional, Taiwan)">Chinese (Traditional, Taiwan)</option>
+        </select>
+
+        <label for="esd">ESD:</label>
+        <input type="checkbox" id="esd" name="esd">
+
+        <label for="netfx3">.NET Framework 3.5:</label>
+        <input type="checkbox" id="netfx3" name="netfx3">
+
+        <label for="drivers">Drivers:</label>
+        <input type="checkbox" id="drivers" name="drivers">
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="button" onclick="generateConfig()">Generate Config</button>
+    </form>
+
+    <h2>Generated Config</h2>
+    <textarea id="generatedConfig" rows="10" cols="50"></textarea>
+
+    <script>
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function generateConfig() {
+            const form = document.getElementById('configForm');
+            const config = {
+                architecture: form.elements['architecture'].value,
+                versions: form.elements['versions'].value,
+                edition: form.elements['edition'].value,
+                language: form.elements['language'].value,
+                esd: form.elements['esd'].checked,
+                netfx3: form.elements['netfx3'].checked,
+                drivers: form.elements['drivers'].checked,
+                email: form.elements['email'].value
+            };
+            const generatedConfig = document.getElementById('generatedConfig');
+            generatedConfig.value = JSON.stringify(config, null, 2);
+
+            // Generate a random 8-character string
+            const randomString = generateRandomString(8);
+
+            // Open GitHub Issue with pre-filled content
+            const issueUrl = `https://github.com/xumouren225588/uup/issues/new?title=build+${randomString}&body=${encodeURIComponent(JSON.stringify(config, null, 2))}`;
+            window.open(issueUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
