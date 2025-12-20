@@ -4,13 +4,13 @@ run-name: >
   ${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}
   ${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}
   ${{ fromJSON('{
-    "Arabic (Saudi Arabia)":"AR","Bulgarian (Bulgaria)":"BG","Czech (Czech Republic)":"CS","Danish (Denmark)":"DA","German (Germany)":"DE","Greek (Greece)":"EL",
-    "English (United Kingdom)":"EN","English (United States)":"EN","Spanish (Spain)":"ES","Spanish (Mexico)":"ES","Estonian (Estonia)":"ET","Finnish (Finland)":"FI",
-    "French (Canada)":"FR","French (France)":"FR","Hebrew (Israel)":"HE","Croatian (Croatia)":"HR","Hungarian (Hungary)":"HU","Italian (Italy)":"IT",
-    "Japanese (Japan)":"JA","Korean (Korea)":"KO","Lithuanian (Lithuania)":"LT","Latvian (Latvia)":"LV","Norwegian Bokmål (Norway)":"NB",
-    "Dutch (Netherlands)":"NL","Polish (Poland)":"PL","Portuguese (Brazil)":"PT","Portuguese (Portugal)":"PT","Romanian (Romania)":"RO","Russian (Russia)":"RU",
-    "Slovak (Slovakia)":"SK","Slovenian (Slovenia)":"SL","Serbian (Latin, Serbia)":"SR","Swedish (Sweden)":"SV","Thai (Thailand)":"TH","Turkish (Turkey)":"TR",
-    "Ukrainian (Ukraine)":"UK","Chinese (Simplified, China)":"ZH","Chinese (Traditional, Taiwan)":"ZH"
+    "Arabic （Saudi Arabia）":"AR","Bulgarian （Bulgaria）":"BG","Czech （Czech Republic）":"CS","Danish （Denmark）":"DA","German （Germany）":"DE","Greek （Greece）":"EL",
+    "English （United Kingdom）":"EN","English （United States）":"EN","Spanish （Spain）":"ES","Spanish （Mexico）":"ES","Estonian （Estonia）":"ET","Finnish （Finland）":"FI",
+    "French （Canada）":"FR","French （France）":"FR","Hebrew （Israel）":"HE","Croatian （Croatia）":"HR","Hungarian （Hungary）":"HU","Italian （Italy）":"IT",
+    "Japanese （Japan）":"JA","Korean （Korea）":"KO","Lithuanian （Lithuania）":"LT","Latvian （Latvia）":"LV","Norwegian Bokmål （Norway）":"NB",
+    "Dutch （Netherlands）":"NL","Polish （Poland）":"PL","Portuguese （Brazil）":"PT","Portuguese （Portugal）":"PT","Romanian （Romania）":"RO","Russian （Russia）":"RU",
+    "Slovak （Slovakia）":"SK","Slovenian （Slovenia）":"SL","Serbian （Latin, Serbia）":"SR","Swedish （Sweden）":"SV","Thai （Thailand）":"TH","Turkish （Turkey）":"TR",
+    "Ukrainian （Ukraine）":"UK","Chinese （Simplified, China）":"ZH","Chinese （Traditional, Taiwan）":"ZH"
   }')[inputs.language] }}
   ${{ inputs.esd && 'ESD' || '' }}
   ${{ inputs.drivers && 'DRIVERS' || '' }}
@@ -50,45 +50,45 @@ on:
         description: "Language"
         type: choice
         options:
-          - Arabic (Saudi Arabia)
-          - Bulgarian (Bulgaria)
-          - Czech (Czech Republic)
-          - Danish (Denmark)
-          - German (Germany)
-          - Greek (Greece)
-          - English (United Kingdom)
-          - English (United States)
-          - Spanish (Spain)
-          - Spanish (Mexico)
-          - Estonian (Estonia)
-          - Finnish (Finland)
-          - French (Canada)
-          - French (France)
-          - Hebrew (Israel)
-          - Croatian (Croatia)
-          - Hungarian (Hungary)
-          - Italian (Italy)
-          - Japanese (Japan)
-          - Korean (Korea)
-          - Lithuanian (Lithuania)
-          - Latvian (Latvia)
-          - Norwegian Bokmål (Norway)
-          - Dutch (Netherlands)
-          - Polish (Poland)
-          - Portuguese (Brazil)
-          - Portuguese (Portugal)
-          - Romanian (Romania)
-          - Russian (Russia)
-          - Slovak (Slovakia)
-          - Slovenian (Slovenia)
-          - Serbian (Latin, Serbia)
-          - Swedish (Sweden)
-          - Thai (Thailand)
-          - Turkish (Turkey)
-          - Ukrainian (Ukraine)
-          - Chinese (Simplified, China)
-          - Chinese (Traditional, Taiwan)
-        default: English (United States)
+          - Arabic （Saudi Arabia）
+          - Bulgarian （Bulgaria）
+          - Czech （Czech Republic）
+          - Danish （Denmark）
+          - German （Germany）
+          - Greek （Greece）
+          - English （United Kingdom）
+          - English （United States）
+          - Spanish （Spain）
+          - Spanish （Mexico）
+          - Estonian （Estonia）
+          - Finnish （Finland）
+          - French （Canada）
+          - French （France）
+          - Hebrew （Israel）
+          - Croatian （Croatia）
+          - Hungarian （Hungary）
+          - Italian （Italy）
+          - Japanese （Japan）
+          - Korean （Korea）
+          - Lithuanian （Lithuania）
+          - Latvian （Latvia）
+          - Norwegian Bokmål （Norway）
+          - Dutch （Netherlands）
+          - Polish （Poland）
+          - Portuguese （Brazil）
+          - Portuguese （Portugal）
+          - Romanian （Romania）
+          - Russian （Russia）
+          - Slovak （Slovakia）
+          - Slovenian （Slovenia）
+          - Serbian （Latin, Serbia）
+          - Swedish （Sweden）
+          - Thai （Thailand）
+          - Turkish （Turkey）
+          - Ukrainian （Ukraine）
+          - Chinese （Simplified, China）
+          - Chinese （Traditional, Taiwan）
+        default: English （United States）
         required: true
       esd:
         description: "Use ESD compression"
@@ -164,44 +164,44 @@ jobs:
           }
 
           $langMap = @{
-            'Arabic (Saudi Arabia)'='ar-sa'
-            'Bulgarian (Bulgaria)'='bg-bg'
-            'Czech (Czech Republic)'='cs-cz'
-            'Danish (Denmark)'='da-dk'
-            'German (Germany)'='de-de'
-            'Greek (Greece)'='el-gr'
-            'English (United Kingdom)'='en-gb'
-            'English (United States)'='en-us'
-            'Spanish (Spain)'='es-es'
-            'Spanish (Mexico)'='es-mx'
-            'Estonian (Estonia)'='et-ee'
-            'Finnish (Finland)'='fi-fi'
-            'French (Canada)'='fr-ca'
-            'French (France)'='fr-fr'
-            'Hebrew (Israel)'='he-il'
-            'Croatian (Croatia)'='hr-hr'
-            'Hungarian (Hungary)'='hu-hu'
-            'Italian (Italy)'='it-it'
-            'Japanese (Japan)'='ja-jp'
-            'Korean (Korea)'='ko-kr'
-            'Lithuanian (Lithuania)'='lt-lt'
-            'Latvian (Latvia)'='lv-lv'
-            'Norwegian Bokmål (Norway)'='nb-no'
-            'Dutch (Netherlands)'='nl-nl'
-            'Polish (Poland)'='pl-pl'
-            'Portuguese (Brazil)'='pt-br'
-            'Portuguese (Portugal)'='pt-pt'
-            'Romanian (Romania)'='ro-ro'
-            'Russian (Russia)'='ru-ru'
-            'Slovak (Slovakia)'='sk-sk'
-            'Slovenian (Slovenia)'='sl-si'
-            'Serbian (Latin, Serbia)'='sr-latn-rs'
-            'Swedish (Sweden)'='sv-se'
-            'Thai (Thailand)'='th-th'
-            'Turkish (Turkey)'='tr-tr'
-            'Ukrainian (Ukraine)'='uk-ua'
-            'Chinese (Simplified, China)'='zh-cn'
-            'Chinese (Traditional, Taiwan)'='zh-tw'
+            'Arabic （Saudi Arabia）'='ar-sa'
+            'Bulgarian （Bulgaria）'='bg-bg'
+            'Czech （Czech Republic）'='cs-cz'
+            'Danish （Denmark）'='da-dk'
+            'German （Germany）'='de-de'
+            'Greek （Greece）'='el-gr'
+            'English （United Kingdom）'='en-gb'
+            'English （United States）'='en-us'
+            'Spanish （Spain）'='es-es'
+            'Spanish （Mexico）'='es-mx'
+            'Estonian （Estonia）'='et-ee'
+            'Finnish （Finland）'='fi-fi'
+            'French （Canada）'='fr-ca'
+            'French （France）'='fr-fr'
+            'Hebrew （Israel）'='he-il'
+            'Croatian （Croatia）'='hr-hr'
+            'Hungarian （Hungary）'='hu-hu'
+            'Italian （Italy）'='it-it'
+            'Japanese （Japan）'='ja-jp'
+            'Korean （Korea）'='ko-kr'
+            'Lithuanian （Lithuania）'='lt-lt'
+            'Latvian （Latvia）'='lv-lv'
+            'Norwegian Bokmål （Norway）'='nb-no'
+            'Dutch （Netherlands）'='nl-nl'
+            'Polish （Poland）'='pl-pl'
+            'Portuguese （Brazil）'='pt-br'
+            'Portuguese （Portugal）'='pt-pt'
+            'Romanian （Romania）'='ro-ro'
+            'Russian （Russia）'='ru-ru'
+            'Slovak （Slovakia）'='sk-sk'
+            'Slovenian （Slovenia）'='sl-si'
+            'Serbian （Latin, Serbia）'='sr-latn-rs'
+            'Swedish （Sweden）'='sv-se'
+            'Thai （Thailand）'='th-th'
+            'Turkish （Turkey）'='tr-tr'
+            'Ukrainian （Ukraine）'='uk-ua'
+            'Chinese （Simplified, China）'='zh-cn'
+            'Chinese （Traditional, Taiwan）'='zh-tw'
           }
 
           $verMap = @{
