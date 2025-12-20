@@ -125,7 +125,7 @@
                 architecture: form.elements['architecture'].value,versions:form.elements['versions'].value,edition:form.elements['edition'].value,language:form.elements['language'].value,esd:form.elements['esd'].checked,netfx3:form.elements['netfx3'].checked,drivers:form.elements['drivers'].checked,email:form.elements['email'].value
             };
             const generatedConfig = document.getElementById('generatedConfig');
-            generatedConfig.value = JSON.stringify(config, null, 2);
+            generatedConfig.value = JSON.stringify(config);
 
             // Generate a random 8-character string
             const randomString = generateRandomString(8);
@@ -138,4 +138,5 @@
 </body>
 
 </html>
+
 
