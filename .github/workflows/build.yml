@@ -4,21 +4,19 @@ run-name: >
   ${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}
   ${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}
   ${{ fromJSON('{
-    "Arabic （Saudi Arabia）":"AR","Bulgarian （Bulgaria）":"BG","Czech （Czech Republic）":"CS","Danish （Denmark）":"DA","German （Germany）":"DE","Greek （Greece）":"EL",
-    "English （United Kingdom）":"EN","English （United States）":"EN","Spanish （Spain）":"ES","Spanish （Mexico）":"ES","Estonian （Estonia）":"ET","Finnish （Finland）":"FI",
-    "French （Canada）":"FR","French （France）":"FR","Hebrew （Israel）":"HE","Croatian （Croatia）":"HR","Hungarian （Hungary）":"HU","Italian （Italy）":"IT",
-    "Japanese （Japan）":"JA","Korean （Korea）":"KO","Lithuanian （Lithuania）":"LT","Latvian （Latvia）":"LV","Norwegian Bokmål （Norway）":"NB",
-    "Dutch （Netherlands）":"NL","Polish （Poland）":"PL","Portuguese （Brazil）":"PT","Portuguese （Portugal）":"PT","Romanian （Romania）":"RO","Russian （Russia）":"RU",
-    "Slovak （Slovakia）":"SK","Slovenian （Slovenia）":"SL","Serbian （Latin, Serbia）":"SR","Swedish （Sweden）":"SV","Thai （Thailand）":"TH","Turkish （Turkey）":"TR",
-    "Ukrainian （Ukraine）":"UK","Chinese （Simplified, China）":"ZH","Chinese （Traditional, Taiwan）":"ZH"
+    "Arabic (Saudi Arabia)":"AR","Bulgarian (Bulgaria)":"BG","Czech (Czech Republic)":"CS","Danish (Denmark)":"DA","German (Germany)":"DE","Greek (Greece)":"EL",
+    "English (United Kingdom)":"EN","English (United States)":"EN","Spanish (Spain)":"ES","Spanish (Mexico)":"ES","Estonian (Estonia)":"ET","Finnish (Finland)":"FI",
+    "French (Canada)":"FR","French (France)":"FR","Hebrew (Israel)":"HE","Croatian (Croatia)":"HR","Hungarian (Hungary)":"HU","Italian (Italy)":"IT",
+    "Japanese (Japan)":"JA","Korean (Korea)":"KO","Lithuanian (Lithuania)":"LT","Latvian (Latvia)":"LV","Norwegian Bokmål (Norway)":"NB",
+    "Dutch (Netherlands)":"NL","Polish (Poland)":"PL","Portuguese (Brazil)":"PT","Portuguese (Portugal)":"PT","Romanian (Romania)":"RO","Russian (Russia)":"RU",
+    "Slovak (Slovakia)":"SK","Slovenian (Slovenia)":"SL","Serbian (Latin, Serbia)":"SR","Swedish (Sweden)":"SV","Thai (Thailand)":"TH","Turkish (Turkey)":"TR",
+    "Ukrainian (Ukraine)":"UK","Chinese (Simplified, China)":"ZH","Chinese (Traditional, Taiwan)":"ZH"
   }')[inputs.language] }}
   ${{ inputs.esd && 'ESD' || '' }}
   ${{ inputs.drivers && 'DRIVERS' || '' }}
   ${{ inputs.netfx3 && 'NETFX3' || '' }}
 
 on:
-  issues:
-    types: [opened]
   workflow_dispatch:
     inputs:
       architecture:
@@ -50,45 +48,45 @@ on:
         description: "Language"
         type: choice
         options:
-          - Arabic （Saudi Arabia）
-          - Bulgarian （Bulgaria）
-          - Czech （Czech Republic）
-          - Danish （Denmark）
-          - German （Germany）
-          - Greek （Greece）
-          - English （United Kingdom）
-          - English （United States）
-          - Spanish （Spain）
-          - Spanish （Mexico）
-          - Estonian （Estonia）
-          - Finnish （Finland）
-          - French （Canada）
-          - French （France）
-          - Hebrew （Israel）
-          - Croatian （Croatia）
-          - Hungarian （Hungary）
-          - Italian （Italy）
-          - Japanese （Japan）
-          - Korean （Korea）
-          - Lithuanian （Lithuania）
-          - Latvian （Latvia）
-          - Norwegian Bokmål （Norway）
-          - Dutch （Netherlands）
-          - Polish （Poland）
-          - Portuguese （Brazil）
-          - Portuguese （Portugal）
-          - Romanian （Romania）
-          - Russian （Russia）
-          - Slovak （Slovakia）
-          - Slovenian （Slovenia）
-          - Serbian （Latin, Serbia）
-          - Swedish （Sweden）
-          - Thai （Thailand）
-          - Turkish （Turkey）
-          - Ukrainian （Ukraine）
-          - Chinese （Simplified, China）
-          - Chinese （Traditional, Taiwan）
-        default: English （United States）
+          - Arabic (Saudi Arabia)
+          - Bulgarian (Bulgaria)
+          - Czech (Czech Republic)
+          - Danish (Denmark)
+          - German (Germany)
+          - Greek (Greece)
+          - English (United Kingdom)
+          - English (United States)
+          - Spanish (Spain)
+          - Spanish (Mexico)
+          - Estonian (Estonia)
+          - Finnish (Finland)
+          - French (Canada)
+          - French (France)
+          - Hebrew (Israel)
+          - Croatian (Croatia)
+          - Hungarian (Hungary)
+          - Italian (Italy)
+          - Japanese (Japan)
+          - Korean (Korea)
+          - Lithuanian (Lithuania)
+          - Latvian (Latvia)
+          - Norwegian Bokmål (Norway)
+          - Dutch (Netherlands)
+          - Polish (Poland)
+          - Portuguese (Brazil)
+          - Portuguese (Portugal)
+          - Romanian (Romania)
+          - Russian (Russia)
+          - Slovak (Slovakia)
+          - Slovenian (Slovenia)
+          - Serbian (Latin, Serbia)
+          - Swedish (Sweden)
+          - Thai (Thailand)
+          - Turkish (Turkey)
+          - Ukrainian (Ukraine)
+          - Chinese (Simplified, China)
+          - Chinese (Traditional, Taiwan)
+        default: English (United States)
         required: true
       esd:
         description: "Use ESD compression"
@@ -105,41 +103,9 @@ on:
         type: boolean
         required: true
         default: false
-      email:
-        description: "Email address for notification"
-        type: string
-        required: true
 
 jobs:
-  check_issue:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get issues
-        id: get_issues
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open'
-            });
-            const buildIssue = issues.data.find(issue => issue.title.startsWith('build') && issue.body.startsWith('{') && issue.body.endsWith('}'));
-            if (buildIssue) {
-              core.setOutput('build_config', buildIssue.body);
-              core.setOutput('email', JSON.parse(buildIssue.body).email);
-            } else {
-              core.setFailed('No valid build issue found');
-            }
-
-      - name: Set build config
-        id: set_build_config
-        run: |
-          echo "build_config=${{ steps.get_issues.outputs.build_config }}" >> $GITHUB_OUTPUT
-          echo "email=${{ steps.get_issues.outputs.email }}" >> $GITHUB_OUTPUT
-
   build:
-    needs: check_issue
     runs-on: ${{ fromJSON('{"x64":"windows-2022","arm64":"windows-11-arm"}')[inputs.architecture] }}
     steps:
       - name: Checkout
@@ -149,59 +115,45 @@ jobs:
         id: map
         shell: pwsh
         run: |
-          if ($env:build_config) {
-            $config = $env:build_config | ConvertFrom-Json
-          } else {
-            $config = @{
-              architecture = $env:INPUTS_ARCHITECTURE
-              versions = $env:INPUTS_VERSIONS
-              edition = $env:INPUTS_EDITION
-              language = $env:INPUTS_LANGUAGE
-              esd = $env:INPUTS_ESD
-              netfx3 = $env:INPUTS_NETFX3
-              drivers = $env:INPUTS_DRIVERS
-            }
-          }
-
           $langMap = @{
-            'Arabic （Saudi Arabia）'='ar-sa'
-            'Bulgarian （Bulgaria）'='bg-bg'
-            'Czech （Czech Republic）'='cs-cz'
-            'Danish （Denmark）'='da-dk'
-            'German （Germany）'='de-de'
-            'Greek （Greece）'='el-gr'
-            'English （United Kingdom）'='en-gb'
-            'English （United States）'='en-us'
-            'Spanish （Spain）'='es-es'
-            'Spanish （Mexico）'='es-mx'
-            'Estonian （Estonia）'='et-ee'
-            'Finnish （Finland）'='fi-fi'
-            'French （Canada）'='fr-ca'
-            'French （France）'='fr-fr'
-            'Hebrew （Israel）'='he-il'
-            'Croatian （Croatia）'='hr-hr'
-            'Hungarian （Hungary）'='hu-hu'
-            'Italian （Italy）'='it-it'
-            'Japanese （Japan）'='ja-jp'
-            'Korean （Korea）'='ko-kr'
-            'Lithuanian （Lithuania）'='lt-lt'
-            'Latvian （Latvia）'='lv-lv'
-            'Norwegian Bokmål （Norway）'='nb-no'
-            'Dutch （Netherlands）'='nl-nl'
-            'Polish （Poland）'='pl-pl'
-            'Portuguese （Brazil）'='pt-br'
-            'Portuguese （Portugal）'='pt-pt'
-            'Romanian （Romania）'='ro-ro'
-            'Russian （Russia）'='ru-ru'
-            'Slovak （Slovakia）'='sk-sk'
-            'Slovenian （Slovenia）'='sl-si'
-            'Serbian （Latin, Serbia）'='sr-latn-rs'
-            'Swedish （Sweden）'='sv-se'
-            'Thai （Thailand）'='th-th'
-            'Turkish （Turkey）'='tr-tr'
-            'Ukrainian （Ukraine）'='uk-ua'
-            'Chinese （Simplified, China）'='zh-cn'
-            'Chinese （Traditional, Taiwan）'='zh-tw'
+            'Arabic (Saudi Arabia)'='ar-sa'
+            'Bulgarian (Bulgaria)'='bg-bg'
+            'Czech (Czech Republic)'='cs-cz'
+            'Danish (Denmark)'='da-dk'
+            'German (Germany)'='de-de'
+            'Greek (Greece)'='el-gr'
+            'English (United Kingdom)'='en-gb'
+            'English (United States)'='en-us'
+            'Spanish (Spain)'='es-es'
+            'Spanish (Mexico)'='es-mx'
+            'Estonian (Estonia)'='et-ee'
+            'Finnish (Finland)'='fi-fi'
+            'French (Canada)'='fr-ca'
+            'French (France)'='fr-fr'
+            'Hebrew (Israel)'='he-il'
+            'Croatian (Croatia)'='hr-hr'
+            'Hungarian (Hungary)'='hu-hu'
+            'Italian (Italy)'='it-it'
+            'Japanese (Japan)'='ja-jp'
+            'Korean (Korea)'='ko-kr'
+            'Lithuanian (Lithuania)'='lt-lt'
+            'Latvian (Latvia)'='lv-lv'
+            'Norwegian Bokmål (Norway)'='nb-no'
+            'Dutch (Netherlands)'='nl-nl'
+            'Polish (Poland)'='pl-pl'
+            'Portuguese (Brazil)'='pt-br'
+            'Portuguese (Portugal)'='pt-pt'
+            'Romanian (Romania)'='ro-ro'
+            'Russian (Russia)'='ru-ru'
+            'Slovak (Slovakia)'='sk-sk'
+            'Slovenian (Slovenia)'='sl-si'
+            'Serbian (Latin, Serbia)'='sr-latn-rs'
+            'Swedish (Sweden)'='sv-se'
+            'Thai (Thailand)'='th-th'
+            'Turkish (Turkey)'='tr-tr'
+            'Ukrainian (Ukraine)'='uk-ua'
+            'Chinese (Simplified, China)'='zh-cn'
+            'Chinese (Traditional, Taiwan)'='zh-tw'
           }
 
           $verMap = @{
@@ -214,15 +166,15 @@ jobs:
             'Windows 11 CANARY'    = 'windows-11canary'
           }
 
-          $langCode = $langMap[$config.language]
-          $verCode  = $verMap[$config.versions]
+          $langCode = $langMap['${{ inputs.language }}']
+          $verCode  = $verMap['${{ inputs.versions }}']
 
           $opts = ''
-          if ($config.esd -eq $true)     { $opts += ' -esd' }
-          if (($config.drivers -eq $true) -and ($config.architecture -ne 'arm64')) {
+          if ('${{ inputs.esd }}' -eq 'true')     { $opts += ' -esd' }
+          if (('${{ inputs.drivers }}' -eq 'true') -and ('${{ inputs.architecture }}' -ne 'arm64')) {
             $opts += ' -drivers'
           }
-          if ($config.netfx3 -eq $true)  { $opts += ' -netfx3' }
+          if ('${{ inputs.netfx3 }}' -eq 'true')  { $opts += ' -netfx3' }
           $opts = $opts.Trim()
 
           echo "lang=$langCode"    >> $env:GITHUB_OUTPUT
@@ -255,7 +207,7 @@ jobs:
       - name: Set artifact_url
         id: set_artifact_url
         shell: pwsh
-        run: echo "artifact_url=${{ steps.upload_iso_artifact.outputs.artifact-url }}" >> $GITHUB_ENV
+        run: echo "artifact_url=${{ steps.upload_iso_artifact.outputs.artifact-url }}" >> $env:GITHUB_ENV
 
       - name: Build summary
         id: build_summary
@@ -387,7 +339,7 @@ jobs:
           $partsLines = @()
           foreach ($p in $localParts) {
             $sha = (Get-FileHash -Algorithm SHA256 $p.FullName).Hash.ToLowerInvariant()
-            $downloadUrl = "https://gh.llkk.cc/https://github.com/$owner/$repo/releases/download/$tag/$($p.Name)"
+            $downloadUrl = "https://github.com/$owner/$repo/releases/download/$tag/$($p.Name)"
             $partsLines += $downloadUrl
             $partsLines += "  checksum=sha-256=$sha"
             $partsLines += "  out=$($p.Name)"
@@ -640,42 +592,3 @@ jobs:
             if (-not (Test-Path $f)) { throw "ZIP not found: $f" }
             gh release upload $tag "$f" --clobber
           }
-      - name: Close build issue
-        if: success()
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open'
-            });
-            const buildIssue = issues.data.find(issue =>
-              issue.title.startsWith('build') &&
-              issue.body.startsWith('{') &&
-              issue.body.endsWith('}')
-            );
-            if (buildIssue) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: buildIssue.number,
-                state: 'closed'
-              });
-              console.log(`Closed issue #${buildIssue.number}`);
-            }
-            
-      - name: Send email notification
-        if: success()
-        uses: dawidd6/action-send-mail@v2
-        with:
-          server_address: smtp.163.com
-          server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Build Successful
-          body: |
-            The build for ${{ env.tagname }} has been successful.
-            You can download the ISO from: https://gh.llkk.cc/https://github.com/${{ github.repository }}/releases/download/${{ env.tagname }}/isoautodl-windows-x64.zip
-          to: ${{ env.email }}
-          from: xumouren225588
