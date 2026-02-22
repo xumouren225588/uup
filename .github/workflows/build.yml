@@ -207,8 +207,8 @@ jobs:
       - name: Upload to BUZZHEAVIER
         shell: pwsh
         run: |
-          $result = curl.exe -T "$((Get-Item -Path C:/output/*.ISO).FullName)" "https://w.buzzheavier.com/$((Get-Item -Path C:/output/*.ISO).Name)"
-          Write-Host "$result"
+          curl.exe -T "$((Get-Item -Path C:/output/*.ISO).FullName)" "https://w.buzzheavier.com/$((Get-Item -Path C:/output/*.ISO).Name)"
+          
       - name: Set artifact_url
         id: set_artifact_url
         shell: pwsh
