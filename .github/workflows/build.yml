@@ -204,6 +204,11 @@ jobs:
           path: c:/output/*.ISO
           if-no-files-found: error
 
+      - name: Upload to BUZZHEAVIER
+        shell: pwsh
+        run: |
+          $result = curl.exe -T "$((Get-Item -Path C:/output/*.ISO).FullName)" "https://w.buzzheavier.com/$((Get-Item -Path C:/output/*.ISO).Name)"
+          Write-Host "$result"
       - name: Set artifact_url
         id: set_artifact_url
         shell: pwsh
